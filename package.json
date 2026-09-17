@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "dependencies": {
     "expo": "~57.0.23",
+    "expo-camera": "~57.0.5",
     "expo-constants": "~57.0.18",
     "expo-font": "~57.0.4",
     "expo-linking": "~57.0.10",
@@ -27,7 +28,7 @@
   },
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
+    "a": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
