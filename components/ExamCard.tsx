@@ -1,19 +1,29 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { Button } from './Button'
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Button } from './Button';
 
-import { captureImage } from '@/services/cameraService'
-
+import { useRouter } from 'expo-router';
 
 export const ExamCard = () => {
+  const router = useRouter();
+
+
   return (
-    <View>
+    <View >
       <Text>ExamCard</Text>
-      <Button text="Capture Image" onPress={captureImage}/>
+      <Button text="Scan Face" onPress={() => router.push("/cameraPreviewPage")} />
     </View>
-  )
-}
+  );
 
 
+};
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  camera: {
+    flex: 1,
+  },
+
+});
