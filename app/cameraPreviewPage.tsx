@@ -54,10 +54,11 @@ const cameraPreviewPage = () => {
     async function handleCapture() {
         const uri = await captureImage(cameraRef);
         setUri(uri);
+        const encoded = encodeURIComponent(uri);
         router.push({
             pathname: "/imagePreviewPage",
             params: {
-                uri: encodeURIComponent(uri),
+                uri: encoded,
             },
         });
     }
