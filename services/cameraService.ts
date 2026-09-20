@@ -2,6 +2,7 @@ import { postPath } from '@/helper/helper';
 import { CameraView } from 'expo-camera';
 import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 
+import { faceVerificationResponseData } from '@/types/res';
 import { File } from "expo-file-system";
 
 
@@ -34,21 +35,23 @@ export function convertToMultiPart(uri: string | null) {
 
   const file = new File(uri)
 
-  console.log(file);
-
   formdata.append("image", file)
 
   return formdata;
 }
 
-export function submitMultiPartFormData(uri: string) {
+export async function submitMultiPartFormData(uri: string) {
 
   const multiPartData = convertToMultiPart(uri);
 
-  fetch(postPath, {
+  const res = await fetch(postPath, {
     method: "POST",
     body: multiPartData
   });
-}
+
+  const data: faceVerificationResponseData = await res.json();
+
+  return data;
+  }
 
 
