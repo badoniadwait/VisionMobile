@@ -8,6 +8,18 @@ import { router } from 'expo-router';
 
 const cameraPreviewPage = () => {
 
+    // useEffect(() => {
+    //     async function checkAuth() {
+    //         const unauthenticated = await ifNotAuthenticated();
+
+    //         if (unauthenticated) {
+    //             router.replace('/login');
+    //         }
+    //     }
+
+    //     checkAuth();
+    // }, []);
+
     const [permission, requestPermission] = useCameraPermissions();
     const cameraRef = useRef<CameraView>(null);
     const [uri, setUri] = useState<string | null>(null);

@@ -1,9 +1,11 @@
-import { postPath } from '@/helper/helper';
+import { faceVerificationPostPath } from '@/helper/helper';
 import { CameraView } from 'expo-camera';
 import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 
 import { faceVerificationResponseData } from '@/types/res';
 import { File } from "expo-file-system";
+import * as SecureStore from 'expo-secure-store';
+
 
 
 export async function captureImage(cameraRef: React.RefObject<CameraView | null>) {
@@ -41,17 +43,26 @@ export function convertToMultiPart(uri: string | null) {
 }
 
 export async function submitMultiPartFormData(uri: string) {
+  const imgUrl = await SecureStore.getItemAsync('profile_img_url');
 
   const multiPartData = convertToMultiPart(uri);
 
-  const res = await fetch(postPath, {
-    method: "POST",
-    body: multiPartData
+  multiPartData.append('imgUrl', imgUrl ?? '');
+
+  console.log(imgUrl);
+
+  const res = await fetch(faceVerificationPostPath, {
+    method: 'POST',
+    body: multiPartData,
   });
+
 
   const data: faceVerificationResponseData = await res.json();
 
+  console.log('Status:', res.status);
+  console.log('Response:', data);
+
   return data;
-  }
+}
 
 

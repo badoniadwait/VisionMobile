@@ -6,6 +6,19 @@ import { Image, StyleSheet, View } from 'react-native';
 
 
 const imagePreviewPage = () => {
+
+    // useEffect(() => {
+    //     async function checkAuth() {
+    //         const unauthenticated = await ifNotAuthenticated();
+
+    //         if (unauthenticated) {
+    //             router.replace('/login');
+    //         }
+    //     }
+
+    //     checkAuth();
+    // }, []);
+
     const { uri } = useLocalSearchParams<{ uri: string }>();
     const router = useRouter();
 
