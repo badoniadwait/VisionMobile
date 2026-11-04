@@ -1,11 +1,12 @@
 import { saveLogin } from '@/auth/auth';
+import { apiFetch, ApiError } from '@/api/client';
 import { Button } from '@/components/Button';
-import { studentLoginPostPath } from '@/helper/helper';
 import { LoginResponse } from '@/types/loginRes';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { colors, radii, spacing } from '@/constants/theme';
 
 
 const Login = () => {
@@ -22,25 +23,20 @@ const Login = () => {
         try {
             setLoading(true)
 
-            const response = await fetch(studentLoginPostPath, {
+            const data = await apiFetch<LoginResponse>('/student-login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
                 body: JSON.stringify({
                     sapId: sapId,
                     password: password,
                 }),
-            })
+            });
 
-            const data: LoginResponse = await response.json();
-
-            if (!response.ok) {
+            if (!data.success) {
                 Alert.alert('Login failed', 'Invalid SAP ID or password')
                 return
             }
 
-            if (!data?.token || !data.student?.SapId) {
+            if (!data?.token || !data.student?.sapId) {
                 throw new Error('The server returned an incomplete login response.');
             }
 
@@ -50,7 +46,7 @@ const Login = () => {
 
         } catch (error) {
             console.error('Login error:', error)
-            Alert.alert('Login error', error instanceof Error && error.message.includes('incomplete')
+            Alert.alert('Login error', error instanceof ApiError || error instanceof Error && error.message.includes('incomplete')
                 ? error.message
                 : 'Unable to connect or save your login. Please try again.')
         } finally {
@@ -86,10 +82,16 @@ const Login = () => {
                 />
 
                 <Button
-                    text={loading ? 'Logging in…' : 'Login'}
+                    text="Login"
                     onPress={fetchStudent}
+                    loading={loading}
                 />
-                {loading && <ActivityIndicator style={styles.loader} />}
+                <Button
+                    text="Back to role selection"
+                    variant="secondary"
+                    onPress={() => router.replace('/welcome')}
+                    disabled={loading}
+                />
             </KeyboardAvoidingView>
         </SafeAreaView>
     )
@@ -98,15 +100,14 @@ const Login = () => {
 export default Login
 
 const styles = StyleSheet.create({
-    safeArea: { flex: 1, backgroundColor: '#fff' },
+    safeArea: { flex: 1, backgroundColor: colors.background },
     container: {
         flex: 1,
-        padding: 20,
-        gap: 16,
+        padding: spacing.lg,
+        gap: spacing.md,
         justifyContent: 'center',
     },
-    title: { fontSize: 28, fontWeight: '700', color: '#111827' },
-    subtitle: { fontSize: 16, color: '#6b7280', marginBottom: 12 },
-    input: { minHeight: 50, borderWidth: 1, borderColor: '#d1d5db', borderRadius: 10, paddingHorizontal: 14, fontSize: 16 },
-    loader: { marginTop: 4 },
+    title: { fontSize: 28, fontWeight: '700', color: colors.text },
+    subtitle: { fontSize: 16, color: colors.mutedText, marginBottom: spacing.sm },
+    input: { minHeight: 50, borderWidth: 1, borderColor: colors.border, borderRadius: radii.md, paddingHorizontal: 14, fontSize: 16, backgroundColor: colors.surface },
 })

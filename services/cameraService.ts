@@ -1,10 +1,10 @@
-import { faceVerificationPostPath } from '@/helper/helper';
 import { CameraView } from 'expo-camera';
 import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 
 import { faceVerificationResponseData } from '@/types/res';
 import { File } from "expo-file-system";
 import * as SecureStore from 'expo-secure-store';
+import { apiFetch } from '@/api/client';
 
 
 
@@ -51,15 +51,11 @@ export async function submitMultiPartFormData(uri: string) {
 
   console.log(imgUrl);
 
-  const res = await fetch(faceVerificationPostPath, {
+  const data = await apiFetch<faceVerificationResponseData>('/api/verify-face', {
     method: 'POST',
     body: multiPartData,
+    authenticated: true,
   });
-
-
-  const data: faceVerificationResponseData = await res.json();
-
-  console.log('Status:', res.status);
   console.log('Response:', data);
 
   return data;
