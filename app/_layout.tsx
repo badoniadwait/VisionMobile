@@ -1,13 +1,12 @@
-import { Stack } from 'expo-router';
-import { useRouter, useSegments } from 'expo-router';
-import React, { useEffect, useState } from 'react';
-import 'react-native-reanimated';
 import { isAuthenticated } from '@/auth/auth';
-import { ActivityIndicator, View } from 'react-native';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
 import { colors, fontFamilies } from '@/helper/style';
+import { useFonts } from 'expo-font';
+import { Stack, useRouter, useSegments } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import 'react-native-reanimated';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -62,7 +61,6 @@ export default function RootLayout() {
         <Stack.Screen name="imagePreviewPage" options={{ title: 'Image preview' }} />
         <Stack.Screen name="exam" options={{ headerShown: false }} />
         <Stack.Screen name="examResult" options={{ headerShown: false }} />
-        <Stack.Screen name="examHistory" options={{ headerShown: false }} />
       </Stack>
       </>
   );

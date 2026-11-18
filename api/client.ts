@@ -2,7 +2,7 @@ import * as SecureStore from 'expo-secure-store';
 
 
 
-export const API_URL ='http://10.28.78.53:8080';
+export const API_URL ='http://10.50.9.53:8080';
 
 export class ApiError extends Error {
   status: number;

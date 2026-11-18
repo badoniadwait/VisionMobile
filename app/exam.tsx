@@ -3,12 +3,14 @@ import { Button } from '@/components/Button';
 import { QuizQuestionCard } from '@/components/QuizQuestionCard';
 import { Screen } from '@/components/Screen';
 import { QuizQuestion, QuizResponse, QuizResult } from '@/types/quiz';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 const Exam = () => {
+  
+  const router = useRouter();
 
   const { quizId } = useLocalSearchParams<{ quizId: string }>();
   const [answers, setAnswers] = React.useState<Record<string, string>>({});
@@ -78,6 +80,8 @@ const Exam = () => {
     const data: QuizResult = await res.json();
 
     console.log(data);
+
+    router.replace("/");
 
   }
 
