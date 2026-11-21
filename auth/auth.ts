@@ -8,7 +8,6 @@ const PROFILE_KEYS = [
   'profile_img_url',
   'sapId',
   'name',
-  'admin_id',
 ] as const;
 
 export async function isAuthenticated(): Promise<boolean> {
@@ -20,12 +19,25 @@ export async function isAuthenticated(): Promise<boolean> {
   }
 }
 
+export async function getAuthToken(): Promise<string | null> {
+  return SecureStore.getItemAsync(AUTH_TOKEN_KEY);
+}
+
+export async function getStoredStudent() {
+  const [sapId, name, profileImageUrl] = await Promise.all([
+    SecureStore.getItemAsync('sapId'),
+    SecureStore.getItemAsync('name'),
+    SecureStore.getItemAsync('profile_img_url'),
+  ]);
+  return { sapId, name, profileImageUrl };
+}
+
+
 export async function saveLogin(
   token: string,
   student: {
     SapId: string;
     name: string;
-    adminId: string;
   },
   imageUrl: string
 ): Promise<void> {
@@ -34,7 +46,6 @@ export async function saveLogin(
     SecureStore.setItemAsync('profile_img_url', imageUrl ?? ''),
     SecureStore.setItemAsync('sapId', student.SapId),
     SecureStore.setItemAsync('name', student.name),
-    SecureStore.setItemAsync('admin_id', student.adminId),
   ]);
 }
 

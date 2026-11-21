@@ -19,8 +19,24 @@ const imagePreviewPage = () => {
     //     checkAuth();
     // }, []);
 
-    const { uri } = useLocalSearchParams<{ uri: string }>();
+    const { uri, quizId } = useLocalSearchParams<{ uri: string, quizId: string }>();
     const router = useRouter();
+
+    async function handleSubmit(uri: string) {
+        const res = await submitMultiPartFormData(uri);
+        if (res.verified === true) {
+            router.push({
+                pathname: '/exam',
+                params: { quizId },
+            });
+        } else {
+            alert("Face verification failed. Please try again.");
+            router.push({
+                pathname: '/cameraPreviewPage',
+                params: { quizId },
+            });
+        }
+    }
 
 
     return (
@@ -35,7 +51,7 @@ const imagePreviewPage = () => {
             />
             <Button
                 text={"Submit"}
-                onPress={() => submitMultiPartFormData(uri)}
+                onPress={() => handleSubmit(uri)}
             />
         </View>
     )

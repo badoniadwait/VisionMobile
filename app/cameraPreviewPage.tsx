@@ -4,9 +4,11 @@ import { ScrollView, StyleSheet } from 'react-native';
 
 import { captureImage } from '@/services/cameraService';
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 const cameraPreviewPage = () => {
+
+    const { quizId } = useLocalSearchParams<{ quizId: string }>();
 
     // useEffect(() => {
     //     async function checkAuth() {
@@ -71,6 +73,7 @@ const cameraPreviewPage = () => {
             pathname: "/imagePreviewPage",
             params: {
                 uri: encoded,
+                quizId
             },
         });
     }

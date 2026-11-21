@@ -49,7 +49,6 @@ export async function submitMultiPartFormData(uri: string) {
 
   multiPartData.append('imgUrl', imgUrl ?? '');
 
-  console.log(imgUrl);
 
   const res = await fetch(faceVerificationPostPath, {
     method: 'POST',
@@ -59,10 +58,8 @@ export async function submitMultiPartFormData(uri: string) {
 
   const data: faceVerificationResponseData = await res.json();
 
-  console.log('Status:', res.status);
   console.log('Response:', data);
+
 
   return data;
 }
-
-

@@ -30,11 +30,6 @@ export default function Root({ children }: { children: ReactNode }) {
 }
 
 const responsiveBackground = `
-body {
-  background-color: #fff;
-}
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #000;
-  }
-}`;
+html, body { background-color: #f7f8fa; }
+body { font-family: 'PlusJakartaSans-Regular', -apple-system, BlinkMacSystemFont, sans-serif; }
+`;
