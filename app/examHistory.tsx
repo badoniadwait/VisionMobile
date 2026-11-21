@@ -1,27 +1,25 @@
 import { ApiError } from '@/api/client';
 import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
-import { colors, radii, spacing } from '@/constants/theme';
+import { AppText } from '@/components/AppText';
 import { fetchExamHistory } from '@/services/studentService';
 import { AttemptResult } from '@/types/quiz';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
+import { colors, spacing, styles as design } from '@/helper/style';
 
 export default function ExamHistory() {
   const [attempts, setAttempts] = useState<AttemptResult[]>([]);
   useEffect(() => { fetchExamHistory().then(setAttempts).catch((error: unknown) => Alert.alert('History unavailable', error instanceof ApiError ? error.message : 'Unable to load exam history.')); }, []);
-  return <Screen><ScrollView contentContainerStyle={styles.container}><Text style={styles.back} onPress={() => router.back()}>← Back</Text><Text style={styles.title}>Exam history</Text>{attempts.length === 0 ? <Text style={styles.empty}>No submitted exams yet.</Text> : attempts.map(attempt => <View key={attempt.attemptId} style={styles.card}><View style={styles.line}><Text style={styles.quiz}>Exam #{attempt.quizId}</Text><Text style={styles.score}>{attempt.percentage}%</Text></View><Text style={styles.meta}>{attempt.score} of {attempt.total} correct</Text><Text style={styles.meta}>{new Date(attempt.submittedAt).toLocaleString()}</Text></View>)}<Button text="Back to dashboard" variant="secondary" onPress={() => router.replace('/')} /></ScrollView></Screen>;
+  return <Screen><ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ gap: spacing.lg, paddingBottom: spacing.xxxl }}>
+    <AppText weight="semiBold" style={design.link} onPress={() => router.back()}>← Back</AppText>
+    <View style={{ gap: spacing.xs }}><AppText weight="bold" style={design.heading}>Exam history</AppText><AppText style={design.mutedText}>A record of your submitted assessments.</AppText></View>
+    {attempts.length === 0 ? <View style={design.emptyState}><AppText weight="bold" style={design.title}>No exams yet</AppText><AppText style={[design.mutedText, design.textCenter]}>Completed exams will appear here.</AppText></View> : attempts.map(attempt => <View key={attempt.attemptId} style={[design.card, { gap: spacing.sm }]}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}><AppText weight="bold" style={design.title}>Exam #{attempt.quizId}</AppText><AppText weight="extraBold" style={{ color: colors.success, fontSize: 22 }}>{attempt.percentage}%</AppText></View>
+      <AppText style={design.mutedText}>{attempt.score} of {attempt.total} correct</AppText>
+      <AppText style={design.smallText}>{new Date(attempt.submittedAt).toLocaleString()}</AppText>
+    </View>)}
+    <Button text="Back to dashboard" variant="secondary" onPress={() => router.replace('/')} />
+  </ScrollView></Screen>;
 }
-
-const styles = StyleSheet.create({
-  container: { gap: spacing.md, paddingBottom: spacing.xl },
-  back: { color: colors.primary, fontSize: 16, fontWeight: '700', marginBottom: spacing.md },
-  title: { color: colors.text, fontSize: 32, fontWeight: '800', marginBottom: spacing.lg },
-  card: { backgroundColor: colors.surface, borderRadius: radii.md, borderWidth: 1, borderColor: colors.border, padding: spacing.md, gap: spacing.xs },
-  line: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  quiz: { color: colors.text, fontSize: 17, fontWeight: '800' },
-  score: { color: colors.primary, fontSize: 20, fontWeight: '800' },
-  meta: { color: colors.mutedText, fontSize: 14 },
-  empty: { color: colors.mutedText, marginBottom: spacing.lg },
-});

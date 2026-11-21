@@ -3,6 +3,5 @@ export type studentDetails = {
     sapId: string
     name: string
     subject: string
-    adminId: string
 }
 

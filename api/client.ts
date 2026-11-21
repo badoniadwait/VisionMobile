@@ -1,12 +1,8 @@
 import * as SecureStore from 'expo-secure-store';
 
-const apiUrl = process.env.EXPO_PUBLIC_API_URL?.replace(/\/$/, '');
 
-if (!apiUrl) {
-  console.warn('EXPO_PUBLIC_API_URL is not configured. Add it to VisionMobile/.env.local.');
-}
 
-export const API_URL = apiUrl ?? 'http://localhost:8080';
+export const API_URL ='http://10.28.78.53:8080';
 
 export class ApiError extends Error {
   status: number;

@@ -2,14 +2,28 @@ import { Stack } from 'expo-router';
 import { useRouter, useSegments } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import 'react-native-reanimated';
-import { getAuthRole, isAuthenticated } from '@/auth/auth';
+import { isAuthenticated } from '@/auth/auth';
 import { ActivityIndicator, View } from 'react-native';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { colors, fontFamilies } from '@/helper/style';
+import { StatusBar } from 'expo-status-bar';
+
+SplashScreen.preventAutoHideAsync();
 
 
 export default function RootLayout() {
   const router = useRouter();
   const segments = useSegments();
   const [authChecked, setAuthChecked] = useState(false);
+  const [fontsLoaded, fontError] = useFonts({
+    [fontFamilies.regular]: require('../assets/fonts/PlusJakartaSans-Regular.ttf'),
+    [fontFamilies.light]: require('../assets/fonts/PlusJakartaSans-Light.ttf'),
+    [fontFamilies.medium]: require('../assets/fonts/PlusJakartaSans-Medium.ttf'),
+    [fontFamilies.semiBold]: require('../assets/fonts/PlusJakartaSans-SemiBold.ttf'),
+    [fontFamilies.bold]: require('../assets/fonts/PlusJakartaSans-Bold.ttf'),
+    [fontFamilies.extraBold]: require('../assets/fonts/PlusJakartaSans-ExtraBold.ttf'),
+  });
 
   useEffect(() => {
     let mounted = true;
@@ -17,13 +31,10 @@ export default function RootLayout() {
       const authenticated = await isAuthenticated();
       if (!mounted) return;
 
-      const authScreens = ['welcome', 'login', 'adminLogin', 'adminSignup'];
+      const authScreens = ['welcome', 'login'];
       const onAuthScreen = authScreens.includes(segments[0] ?? '');
       if (!authenticated && !onAuthScreen) router.replace('/welcome');
-      else if (authenticated && onAuthScreen) {
-        const role = await getAuthRole();
-        router.replace(role === 'ADMIN' ? '/adminHome' : '/');
-      }
+      else if (authenticated && onAuthScreen) router.replace('/');
       setAuthChecked(true);
     }
 
@@ -31,28 +42,28 @@ export default function RootLayout() {
     return () => { mounted = false; };
   }, [router, segments]);
 
-  if (!authChecked) {
-    return <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><ActivityIndicator /></View>;
+  useEffect(() => {
+    if (authChecked && (fontsLoaded || fontError)) SplashScreen.hideAsync();
+  }, [authChecked, fontsLoaded, fontError]);
+
+  if (!authChecked || (!fontsLoaded && !fontError)) {
+    return <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.background }}><ActivityIndicator color={colors.info} /></View>;
   }
 
   return (
-      <Stack>
+      <>
+      <StatusBar style="dark" backgroundColor={colors.background} />
+      <Stack screenOptions={{ contentStyle: { backgroundColor: colors.background }, headerStyle: { backgroundColor: colors.card }, headerTintColor: colors.foreground, headerTitleStyle: { fontFamily: fontFamilies.bold, fontSize: 16 }, headerShadowVisible: false }}>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="studentProfile" options={{ headerShown: false }} />
         <Stack.Screen name="welcome" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
-        <Stack.Screen name="adminLogin" options={{ headerShown: false }} />
-        <Stack.Screen name="adminSignup" options={{ headerShown: false }} />
-        <Stack.Screen name="adminHome" options={{ headerShown: false }} />
-        <Stack.Screen name="adminProfile" options={{ headerShown: false }} />
-        <Stack.Screen name="createQuiz" options={{ headerShown: false }} />
-        <Stack.Screen name="registerStudent" options={{ headerShown: false }} />
-        <Stack.Screen name="adminQuizDetail" options={{ headerShown: false }} />
         <Stack.Screen name="cameraPreviewPage" options={{ title: 'Camera' }} />
         <Stack.Screen name="imagePreviewPage" options={{ title: 'Image preview' }} />
         <Stack.Screen name="exam" options={{ headerShown: false }} />
         <Stack.Screen name="examResult" options={{ headerShown: false }} />
         <Stack.Screen name="examHistory" options={{ headerShown: false }} />
       </Stack>
+      </>
   );
 }

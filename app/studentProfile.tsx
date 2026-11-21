@@ -1,56 +1,40 @@
 import { getStoredStudent, logout } from '@/auth/auth';
 import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
-import { colors, radii, spacing } from '@/constants/theme';
+import { AppText } from '@/components/AppText';
 import { fetchStudentProfile } from '@/services/studentService';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Alert, Image, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, View } from 'react-native';
+import { colors, radius, spacing, styles as design } from '@/helper/style';
 
 export default function StudentProfile() {
   const [profile, setProfile] = useState<{ sapId: string; name: string; profileImageUrl: string } | null>(null);
-
   useEffect(() => {
-    fetchStudentProfile()
-      .then(setProfile)
-      .catch(async () => {
-        const stored = await getStoredStudent();
-        if (stored.sapId && stored.name) setProfile({ sapId: stored.sapId, name: stored.name, profileImageUrl: stored.profileImageUrl ?? '' });
-        else Alert.alert('Profile unavailable', 'Unable to load your profile.');
-      });
+    fetchStudentProfile().then(setProfile).catch(async () => {
+      const stored = await getStoredStudent();
+      if (stored.sapId && stored.name) setProfile({ sapId: stored.sapId, name: stored.name, profileImageUrl: stored.profileImageUrl ?? '' });
+      else Alert.alert('Profile unavailable', 'Unable to load your profile.');
+    });
   }, []);
-
-  async function onLogout() {
-    await logout();
-    router.replace('/welcome');
-  }
-
-  return (
-    <Screen>
-      <Text style={styles.back} onPress={() => router.back()}>← Back</Text>
-      <Text style={styles.title}>My profile</Text>
-      <View style={styles.profileCard}>
-        {profile?.profileImageUrl ? <Image source={{ uri: profile.profileImageUrl }} style={styles.avatar} /> : <View style={styles.avatarFallback}><Text style={styles.avatarText}>{(profile?.name || 'S').charAt(0)}</Text></View>}
-        <Text style={styles.name}>{profile?.name || 'Loading…'}</Text>
-        <Text style={styles.sapId}>{profile?.sapId || ' '}</Text>
+  async function onLogout() { await logout(); router.replace('/welcome'); }
+  return <Screen>
+    <View style={{ flex: 1, gap: spacing.xl }}>
+      <AppText weight="semiBold" style={design.link} onPress={() => router.back()}>← Back</AppText>
+      <AppText weight="bold" style={design.heading}>My profile</AppText>
+      <View style={[design.panel, { alignItems: 'center', gap: spacing.md }]}>
+        {profile?.profileImageUrl ? <Image source={{ uri: profile.profileImageUrl }} style={styles.avatar} /> : <View style={[styles.avatar, { backgroundColor: colors.accent, alignItems: 'center', justifyContent: 'center' }]}><AppText weight="bold" style={{ color: colors.info, fontSize: 30 }}>{(profile?.name || 'S').charAt(0).toUpperCase()}</AppText></View>}
+        <AppText weight="bold" style={design.subheading}>{profile?.name || 'Loading…'}</AppText>
+        <AppText style={design.mutedText}>{profile?.sapId || ' '}</AppText>
       </View>
-      <View style={styles.detailRow}><Text style={styles.label}>SAP ID</Text><Text style={styles.value}>{profile?.sapId || '—'}</Text></View>
-      <View style={styles.detailRow}><Text style={styles.label}>Reference image</Text><Text style={styles.value}>{profile?.profileImageUrl ? 'Uploaded' : 'Unavailable'}</Text></View>
-      <Button text="Sign out" variant="secondary" onPress={onLogout} />
-    </Screen>
-  );
+      <View style={[design.card, { gap: spacing.lg }]}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}><AppText style={design.mutedText}>SAP ID</AppText><AppText weight="semiBold">{profile?.sapId || '—'}</AppText></View>
+        <View style={design.divider} />
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}><AppText style={design.mutedText}>Reference image</AppText><AppText weight="semiBold">{profile?.profileImageUrl ? 'Uploaded' : 'Unavailable'}</AppText></View>
+      </View>
+      <View style={{ marginTop: 'auto' }}><Button text="Sign out" variant="outline" onPress={onLogout} fullWidth /></View>
+    </View>
+  </Screen>;
 }
 
-const styles = StyleSheet.create({
-  back: { color: colors.primary, fontSize: 16, fontWeight: '700', marginBottom: spacing.lg },
-  title: { color: colors.text, fontSize: 32, fontWeight: '800', marginBottom: spacing.lg },
-  profileCard: { alignItems: 'center', backgroundColor: colors.surface, borderRadius: radii.lg, padding: spacing.xl, borderWidth: 1, borderColor: colors.border, marginBottom: spacing.lg },
-  avatar: { width: 92, height: 92, borderRadius: 46, marginBottom: spacing.md },
-  avatarFallback: { width: 92, height: 92, borderRadius: 46, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center', marginBottom: spacing.md },
-  avatarText: { color: '#fff', fontSize: 36, fontWeight: '800' },
-  name: { color: colors.text, fontSize: 23, fontWeight: '800' },
-  sapId: { color: colors.mutedText, fontSize: 15, marginTop: spacing.xs },
-  detailRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.border },
-  label: { color: colors.mutedText, fontSize: 15 },
-  value: { color: colors.text, fontSize: 15, fontWeight: '700' },
-});
+const styles = { avatar: { width: 92, height: 92, borderRadius: radius.round } };

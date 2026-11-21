@@ -1,6 +1,5 @@
 export type Student = {
-  sapId: string
-  adminId: string
+  SapId: string
   name: string
   subject: string
 }

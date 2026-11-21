@@ -1,33 +1,17 @@
 import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
-import { colors, radii, spacing } from '@/constants/theme';
+import { AppText } from '@/components/AppText';
 import { router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
+import { colors, radius, spacing, styles as design } from '@/helper/style';
 
 export default function ExamResult() {
   const params = useLocalSearchParams<{ score: string; total: string; percentage: string }>();
-  return (
-    <Screen style={styles.screen}>
-      <View style={styles.icon}><Text style={styles.check}>✓</Text></View>
-      <Text style={styles.title}>Exam submitted</Text>
-      <Text style={styles.subtitle}>Your answers were submitted successfully.</Text>
-      <View style={styles.scoreCard}>
-        <Text style={styles.score}>{params.percentage || '0'}%</Text>
-        <Text style={styles.scoreLabel}>{params.score || '0'} of {params.total || '0'} correct</Text>
-      </View>
-      <Button text="Back to dashboard" onPress={() => router.replace('/')} />
-    </Screen>
-  );
+  return <Screen><View style={{ flex: 1, justifyContent: 'center', gap: spacing.xl }}>
+    <View style={{ width: 68, height: 68, borderRadius: radius.round, backgroundColor: '#eaf5ee', alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }}><AppText weight="bold" style={{ color: colors.success, fontSize: 32 }}>✓</AppText></View>
+    <View style={{ gap: spacing.sm, alignItems: 'center' }}><AppText weight="bold" style={design.heading}>Exam submitted</AppText><AppText style={[design.mutedText, design.textCenter]}>Your answers were submitted successfully.</AppText></View>
+    <View style={[design.panel, { alignItems: 'center', gap: spacing.sm }]}><AppText weight="extraBold" style={{ color: colors.info, fontSize: 48 }}>{params.percentage || '0'}%</AppText><AppText style={design.mutedText}>{params.score || '0'} of {params.total || '0'} correct</AppText></View>
+    <Button text="Back to dashboard" onPress={() => router.replace('/')} fullWidth />
+  </View></Screen>;
 }
-
-const styles = StyleSheet.create({
-  screen: { justifyContent: 'center', alignItems: 'center', gap: spacing.md },
-  icon: { width: 76, height: 76, borderRadius: 38, alignItems: 'center', justifyContent: 'center', backgroundColor: '#DCFCE7' },
-  check: { color: colors.success, fontSize: 42, fontWeight: '800' },
-  title: { color: colors.text, fontSize: 30, fontWeight: '800', textAlign: 'center' },
-  subtitle: { color: colors.mutedText, fontSize: 16, textAlign: 'center' },
-  scoreCard: { width: '100%', alignItems: 'center', backgroundColor: colors.surface, borderRadius: radii.lg, padding: spacing.xl, marginVertical: spacing.lg, borderWidth: 1, borderColor: colors.border },
-  score: { color: colors.primary, fontSize: 52, fontWeight: '800' },
-  scoreLabel: { color: colors.mutedText, fontSize: 16, marginTop: spacing.xs },
-});

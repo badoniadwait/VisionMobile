@@ -8,7 +8,6 @@ export type QuizSummary = {
 export type StudentProfile = {
   sapId: string;
   name: string;
-  adminId: string;
   profileImageUrl: string;
 };
 
@@ -33,3 +32,20 @@ export type AttemptResult = ExamResult & {
   quizId: number;
   submittedAt: string;
 };
+
+export type QuizQuestion = {
+  question: string;
+  options: string[];
+  answer: string | null;
+};
+
+export type QuizResponse = {
+  durationMinutes: number;
+  questions: QuizQuestion[];
+};
+
+export type QuizResult = {
+  quizId: string;
+  marksObtained: number;
+  totalMarks: number;
+}

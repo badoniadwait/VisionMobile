@@ -1,54 +1,39 @@
-import React from 'react'
-import { ActivityIndicator, Pressable, StyleSheet, Text } from 'react-native'
-import { colors, radii, spacing } from '@/constants/theme'
+import React from 'react';
+import { ActivityIndicator, Pressable, StyleSheet, ViewStyle } from 'react-native';
+import { AppText } from './AppText';
+import { colors, styles as design } from '@/helper/style';
 
-export const Button = (
-    {
-        text,
-        onPress,
-        variant = 'primary',
-        loading = false,
-        disabled = false,
-    }:{
-        text: string
-        onPress: () => void
-        variant?: 'primary' | 'secondary' | 'danger'
-        loading?: boolean
-        disabled?: boolean
-    }
-) => {
+type Variant = 'primary' | 'secondary' | 'danger' | 'outline' | 'success';
+type Props = {
+  text: string;
+  onPress: () => void;
+  variant?: Variant;
+  loading?: boolean;
+  disabled?: boolean;
+  fullWidth?: boolean;
+  style?: ViewStyle;
+};
 
+export function Button({ text, onPress, variant = 'primary', loading = false, disabled = false, fullWidth = false, style }: Props) {
+  const inactive = disabled || loading;
+  const labelColor = variant === 'primary' || variant === 'danger' || variant === 'success' ? colors.primaryForeground : colors.foreground;
   return (
     <Pressable
+      accessibilityRole="button"
       onPress={onPress}
-      disabled={disabled || loading}
-      style={({ pressed }) => [
-        styles.base,
-        styles[variant],
-        (disabled || loading) && styles.disabled,
-        pressed && styles.pressed,
-      ]}
+      disabled={inactive}
+      style={({ pressed }) => [design.button, variantStyles[variant], fullWidth && design.buttonFull, inactive && design.buttonDisabled, pressed && !inactive && local.pressed, style]}
     >
-      {loading ? <ActivityIndicator color={variant === 'secondary' ? colors.primary : '#fff'} /> : <Text style={textStyles[variant]}>{text}</Text>}
+      {loading ? <ActivityIndicator color={labelColor} /> : <AppText weight="semiBold" style={[design.buttonText, { color: labelColor }]}>{text}</AppText>}
     </Pressable>
-  )
+  );
 }
 
-
-const styles = StyleSheet.create({
-  base: { minHeight: 52, borderRadius: radii.md, alignItems: 'center', justifyContent: 'center', paddingHorizontal: spacing.lg },
-  primary: { backgroundColor: colors.primary },
-  secondary: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border },
-  danger: { backgroundColor: colors.danger },
-  primaryText: { color: '#fff', fontSize: 16, fontWeight: '700' },
-  secondaryText: { color: colors.text, fontSize: 16, fontWeight: '700' },
-  dangerText: { color: '#fff', fontSize: 16, fontWeight: '700' },
-  disabled: { opacity: 0.55 },
-  pressed: { opacity: 0.82 },
-})
-
-const textStyles = {
-  primary: styles.primaryText,
-  secondary: styles.secondaryText,
-  danger: styles.dangerText,
-};
+const variantStyles = StyleSheet.create({
+  primary: { backgroundColor: colors.primary, borderColor: colors.primary },
+  secondary: { backgroundColor: colors.secondary, borderColor: colors.border },
+  danger: { backgroundColor: colors.destructive, borderColor: colors.destructive },
+  success: { backgroundColor: colors.success, borderColor: colors.success },
+  outline: { backgroundColor: 'transparent', borderColor: colors.border },
+});
+const local = StyleSheet.create({ pressed: { opacity: 0.82, transform: [{ scale: 0.99 }] } });
