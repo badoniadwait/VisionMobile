@@ -1,7 +1,8 @@
-
 import { QuizQuestion } from '@/types/quiz';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { colors, fontFamilies, radius, spacing, styles as design, typography } from '@/helper/style';
+import { AppText } from './AppText';
 
 type QuizQuestionCardProps = {
   questionNo: number;
@@ -20,9 +21,9 @@ export const QuizQuestionCard = ({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.question}>
+      <AppText weight="semiBold" style={styles.question}>
         {questionNo}. {question.question}
-      </Text>
+      </AppText>
 
       {question.options.map((option, index) => {
         const selected = selectedAnswer === option;
@@ -30,66 +31,73 @@ export const QuizQuestionCard = ({
         return (
           <Pressable
             key={index}
-            style={styles.option}
+            style={[styles.option, selected && styles.optionSelected]}
             onPress={() => onSelect(option)}
           >
-            <Text style={styles.optionText}>
+            <AppText style={styles.optionText}>
               {option}
-            </Text>
+            </AppText>
 
-            <View style={styles.radio}>
-              {selected && <View style={styles.radioSelected} />}
+            <View style={[styles.radio, selected && styles.radioSelected]}>
+              {selected && <View style={styles.radioDot} />}
             </View>
           </Pressable>
         );
       })}
     </View>
-
-
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
-    gap: 14,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    marginBottom: 16,
+    ...design.card,
+    gap: spacing.md,
+    marginBottom: spacing.lg,
   },
   question: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: typography.title,
+    lineHeight: 25,
   },
   option: {
+    minHeight: 52,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 12,
-    paddingHorizontal: 12,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.md,
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
+    borderColor: colors.border,
+    borderRadius: radius.md,
+    backgroundColor: colors.card,
   },
-
+  optionSelected: {
+    borderColor: colors.info,
+    backgroundColor: colors.accent,
+  },
   optionText: {
-    fontSize: 16,
+    fontFamily: fontFamilies.regular,
+    fontSize: typography.body,
+    lineHeight: 21,
+    color: colors.foreground,
     flex: 1,
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   radio: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    borderWidth: 2,
-    borderColor: '#2563eb',
+    width: 20,
+    height: 20,
+    borderRadius: radius.round,
+    borderWidth: 1.5,
+    borderColor: colors.input,
     alignItems: 'center',
     justifyContent: 'center',
   },
   radioSelected: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#2563eb',
+    borderColor: colors.info,
+  },
+  radioDot: {
+    width: 10,
+    height: 10,
+    borderRadius: radius.round,
+    backgroundColor: colors.info,
   },
 });

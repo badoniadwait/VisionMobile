@@ -7,7 +7,6 @@ import { Screen } from '@/components/Screen';
 import { quizResultsPostPath } from '@/helper/helper';
 import {
   colors,
-  darkColors,
   styles as design,
   radius,
   spacing,
@@ -92,7 +91,7 @@ export default function StudentProfile() {
 
         <AppText
           weight="semiBold"
-          style={design.link}
+          style={[design.link, { paddingVertical: spacing.xs }]}
           onPress={() => router.back()}
         >
           ← Back
@@ -198,8 +197,8 @@ export default function StudentProfile() {
             text="Sign out"
             variant="outline"
             onPress={onLogout}
+            style={{backgroundColor: colors.destructive}}
             fullWidth
-            style={{ backgroundColor: darkColors.destructive }}
           />
         </View>
       </View>

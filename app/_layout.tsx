@@ -1,5 +1,5 @@
 import { isAuthenticated } from '@/auth/auth';
-import { colors, fontFamilies } from '@/helper/style';
+import { colors, fontFamilies, typography } from '@/helper/style';
 import { useFonts } from 'expo-font';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -52,7 +52,7 @@ export default function RootLayout() {
   return (
       <>
       <StatusBar style="dark" backgroundColor={colors.background} />
-      <Stack screenOptions={{ contentStyle: { backgroundColor: colors.background }, headerStyle: { backgroundColor: colors.card }, headerTintColor: colors.foreground, headerTitleStyle: { fontFamily: fontFamilies.bold, fontSize: 16 }, headerShadowVisible: false }}>
+      <Stack screenOptions={{ contentStyle: { backgroundColor: colors.background }, headerStyle: { backgroundColor: colors.card }, headerTintColor: colors.foreground, headerTitleStyle: { fontFamily: fontFamilies.bold, fontSize: typography.body }, headerShadowVisible: false }}>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="studentProfile" options={{ headerShown: false }} />
         <Stack.Screen name="welcome" options={{ headerShown: false }} />

@@ -1,5 +1,5 @@
 
-import { spacing } from '@/helper/style';
+import { spacing, styles as design } from '@/helper/style';
 import { QuizResult } from '@/types/quiz';
 import React from 'react';
 import { View } from 'react-native';
@@ -11,12 +11,12 @@ type Props = {
 
 export const QuizResults = ({ data }: Props) => {
   return (
-    <View style={{ padding: spacing.md }}>
-      <AppText weight="semiBold">
+    <View style={[design.card, { gap: spacing.xs }]}>
+      <AppText weight="semiBold" style={design.smallText}>
         Quiz #{data.quizId}
       </AppText>
 
-      <AppText weight="bold">
+      <AppText weight="bold" style={design.subheading}>
         {data.marksObtained} / {data.totalMarks}
       </AppText>
     </View>

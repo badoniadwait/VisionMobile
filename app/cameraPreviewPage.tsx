@@ -5,6 +5,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { captureImage } from '@/services/cameraService';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { router, useLocalSearchParams } from 'expo-router';
+import { colors, radius, spacing } from '@/helper/style';
 
 const cameraPreviewPage = () => {
 
@@ -36,12 +37,13 @@ const cameraPreviewPage = () => {
             <Button
                 text="Allow Camera"
                 onPress={requestPermission}
+                style={styles.permissionButton}
             />
         );
     }
 
     return (
-        <ScrollView>
+        <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
 
             <CameraView
                 ref={cameraRef}
@@ -52,6 +54,8 @@ const cameraPreviewPage = () => {
             <Button
                 text={"Capture Image"}
                 onPress={handleCapture}
+                fullWidth
+                style={styles.captureButton}
             />
 
 
@@ -82,12 +86,35 @@ const cameraPreviewPage = () => {
 export default cameraPreviewPage
 
 const styles = StyleSheet.create({
+    screen: {
+        flex: 1,
+        backgroundColor: colors.background,
+    },
+    content: {
+        flexGrow: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: spacing.lg,
+    },
     container: {
         flex: 1,
     },
     preview: {
-        width: 300,
-        height: 400,
-        margin: 20,
+        width: '100%',
+        maxWidth: 420,
+        maxHeight: 540,
+        aspectRatio: 3 / 4,
+        marginBottom: spacing.xl,
+        borderRadius: radius.lg,
+        overflow: 'hidden',
+        backgroundColor: colors.cameraBackground,
+    },
+    captureButton: {
+        width: '100%',
+        maxWidth: 420,
+    },
+    permissionButton: {
+        alignSelf: 'center',
+        margin: spacing.xl,
     },
 })

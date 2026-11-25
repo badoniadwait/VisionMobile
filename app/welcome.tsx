@@ -9,7 +9,7 @@ import { colors, radius, spacing, styles as design } from '@/helper/style';
 export default function Welcome() {
   return (
     <Screen>
-      <View style={{ flex: 1, justifyContent: 'space-between', paddingVertical: spacing.xxxl }}>
+        <View style={{ flex: 1, justifyContent: 'space-between', paddingVertical: spacing.xxxl }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
           <View style={{ width: 42, height: 42, borderRadius: radius.md, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' }}>
             <AppText weight="extraBold" style={{ color: colors.primaryForeground, fontSize: 20 }}>V</AppText>
@@ -20,7 +20,7 @@ export default function Welcome() {
           <View style={{ alignSelf: 'flex-start', paddingHorizontal: spacing.md, paddingVertical: spacing.sm, borderRadius: radius.round, backgroundColor: colors.accent }}>
             <AppText weight="bold" style={{ color: colors.info, fontSize: 11, letterSpacing: 1.1 }}>SECURE EXAMINATION</AppText>
           </View>
-          <AppText weight="extraBold" style={{ color: colors.foreground, fontSize: 38, lineHeight: 46, letterSpacing: -1.8 }}>A smarter way to take your exams.</AppText>
+            <AppText weight="extraBold" style={{ color: colors.foreground, fontSize: 36, lineHeight: 44, letterSpacing: -1.2 }}>A smarter way to take your exams.</AppText>
           <AppText style={[design.mutedText, { fontSize: 16, lineHeight: 26 }]}>Online quiz examination with a simple, secure student experience.</AppText>
         </View>
         <View style={{ gap: spacing.md }}>

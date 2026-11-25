@@ -6,7 +6,7 @@ import { StyleSheet, View } from 'react-native';
 import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { Screen } from '@/components/Screen';
-import { colors, styles as design, radius, spacing } from '@/helper/style';
+import { styles as design, spacing } from '@/helper/style';
 
 export default function ExamResult() {
     const { quizId, marksObtained, totalMarks } = useLocalSearchParams<{
@@ -48,7 +48,7 @@ export default function ExamResult() {
                         
 
                         {/* Summary */}
-                        <View style={design.card}>
+                        <View style={[design.card, styles.summary]}>
                             <AppText weight="bold" style={design.title}>
                                 Summary
                             </AppText>
@@ -103,77 +103,9 @@ const styles = StyleSheet.create({
     header: {
         gap: spacing.xs,
     },
-    resultCard: {
-        backgroundColor: colors.primary,
-        borderRadius: radius.xl,
+    summary: {
+        gap: spacing.sm,
         padding: spacing.xl,
-        gap: spacing.md,
-    },
-    resultHeader: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    lightCaption: {
-        color: '#d7d9de',
-        fontSize: 12,
-        letterSpacing: 1,
-        fontWeight: '600',
-    },
-    completedBadge: {
-        backgroundColor: '#ffffff22',
-        borderRadius: radius.md,
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.xs,
-    },
-    completedText: {
-        color: '#ffffff',
-        fontSize: 10,
-        fontWeight: 'bold',
-    },
-    lightLabel: {
-        color: '#d7d9de',
-        fontSize: 13,
-    },
-    marksContainer: {
-        flexDirection: 'row',
-        alignItems: 'baseline',
-    },
-    marks: {
-        color: '#ffffff',
-        fontSize: 48,
-    },
-    totalMarks: {
-        color: '#d7d9de',
-        fontSize: 22,
-        marginLeft: spacing.xs,
-    },
-    divider: {
-        height: 1,
-        backgroundColor: '#ffffff30',
-        marginVertical: spacing.sm,
-    },
-    percentageContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    percentage: {
-        color: '#ffffff',
-        fontSize: 25,
-    },
-    scoreCircle: {
-        width: 62,
-        height: 62,
-        borderRadius: 31,
-        borderWidth: 3,
-        borderColor: '#ffffff',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    circleText: {
-        color: '#ffffff',
-        fontSize: 14,
     },
     summaryRow: {
         flexDirection: 'row',

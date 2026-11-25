@@ -1,12 +1,14 @@
 import { API_URL } from '@/api/client';
+import { AppText } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { QuizQuestionCard } from '@/components/QuizQuestionCard';
 import { Screen } from '@/components/Screen';
+import { styles as design, spacing } from '@/helper/style';
 import { QuizQuestion, QuizResponse, QuizResult } from '@/types/quiz';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 const Exam = () => {
   
@@ -87,9 +89,9 @@ const Exam = () => {
 
   return (
     <Screen>
-      <Text>Exam #{quizId}</Text>
+      <AppText weight="bold" style={[design.heading, styles.heading]}>Exam #{quizId}</AppText>
 
-      <View>
+      <View style={styles.questionList}>
         {questions.map((question, index) => (
           <QuizQuestionCard
             key={index}
@@ -103,7 +105,7 @@ const Exam = () => {
         ))}
       </View>
 
-      <Button onPress={handleQuestionSubmit} text='Submit' />
+      <Button onPress={handleQuestionSubmit} text='Submit' fullWidth style={styles.submit} />
 
     </Screen>
   );
@@ -115,4 +117,14 @@ const Exam = () => {
 
 export default Exam;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  heading: {
+    marginBottom: spacing.lg,
+  },
+  questionList: {
+    gap: spacing.xs,
+  },
+  submit: {
+    marginTop: spacing.md,
+  },
+});

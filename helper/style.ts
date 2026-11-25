@@ -3,36 +3,36 @@ import { StyleSheet } from 'react-native';
 
 
 export const colors = {
-  background: '#f7f8fa',
-  foreground: '#17191f',
+  background: '#f5f7fa',
+  foreground: '#182230',
 
   card: '#ffffff',
-  cardForeground: '#17191f',
+  cardForeground: '#182230',
 
   popover: '#ffffff',
-  popoverForeground: '#17191f',
+  popoverForeground: '#182230',
 
-  primary: '#17191f',
-  primaryHover: '#30343d',
+  primary: '#183b63',
+  primaryHover: '#244e7d',
   primaryForeground: '#ffffff',
 
-  secondary: '#f0f1f3',
-  secondaryForeground: '#252832',
+  secondary: '#edf2f7',
+  secondaryForeground: '#26384d',
 
-  muted: '#f4f5f7',
-  mutedForeground: '#747985',
+  muted: '#f0f3f7',
+  mutedForeground: '#667487',
 
-  accent: '#eef0f4',
-  accentForeground: '#20232b',
+  accent: '#e9f0f8',
+  accentForeground: '#214a73',
 
-  destructive: '#dc4545',
-  success: '#16834b',
-  warning: '#a96a12',
-  info: '#315efb',
+  destructive: '#bd3d48',
+  success: '#18734d',
+  warning: '#986012',
+  info: '#2d64a5',
 
-  border: '#e5e7eb',
-  input: '#e1e4e9',
-  ring: '#8b93a3',
+  border: '#dfe5ec',
+  input: '#d5dee8',
+  ring: '#7392b2',
 
   cameraBackground: '#090a0c',
   white: '#ffffff',
@@ -49,9 +49,9 @@ export const darkColors = {
   popover: '#1d2026',
   popoverForeground: '#f3f4f6',
 
-  primary: '#f3f4f6',
-  primaryHover: '#ffffff',
-  primaryForeground: '#17191f',
+  primary: '#79a9d8',
+  primaryHover: '#9bc2e8',
+  primaryForeground: '#101a26',
 
   secondary: '#292c33',
   secondaryForeground: '#f3f4f6',
@@ -91,14 +91,14 @@ export const radius = {
   sm: 8,
   md: 11,
   lg: 14,
-  xl: 18,
-  xxl: 22,
+  xl: 16,
+  xxl: 20,
   round: 999,
 };
 
 export const typography = {
   brand: 24,
-  heading: 26,
+  heading: 28,
   subheading: 20,
   title: 17,
   body: 14,
@@ -119,8 +119,8 @@ export const shadows = {
   small: {
     shadowColor: '#101828',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.04,
-    shadowRadius: 2,
+    shadowOpacity: 0.035,
+    shadowRadius: 3,
     elevation: 1,
   },
   medium: {
@@ -145,9 +145,20 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
+  screenFrame: {
+    flex: 1,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.md,
+  },
+  screenContainer: {
+    flex: 1,
+    width: '100%',
+    maxWidth: 560,
+    alignSelf: 'center',
+  },
   screenContent: {
     flexGrow: 1,
-    padding: spacing.lg,
+    padding: spacing.xl,
   },
   container: {
     width: '100%',
@@ -190,20 +201,20 @@ export const styles = StyleSheet.create({
     color: colors.foreground,
     fontSize: typography.brand,
     fontWeight: '800',
-    letterSpacing: -1.2,
+    letterSpacing: -0.8,
   },
   heading: {
     fontFamily: fontFamilies.bold,
     color: colors.foreground,
     fontSize: typography.heading,
     fontWeight: '700',
-    letterSpacing: -0.7,
+    letterSpacing: -0.6,
   },
   subheading: {
     fontFamily: fontFamilies.semiBold,
     color: colors.foreground,
     fontSize: typography.subheading,
-    fontWeight: '650',
+    fontWeight: '600',
   },
   title: {
     fontFamily: fontFamilies.semiBold,
@@ -246,7 +257,7 @@ export const styles = StyleSheet.create({
 
   // Header and navigation
   header: {
-    minHeight: 58,
+    minHeight: 60,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -306,7 +317,7 @@ export const styles = StyleSheet.create({
 
   // Buttons
   button: {
-    minHeight: 44,
+    minHeight: 48,
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.md,
     flexDirection: 'row',
@@ -370,7 +381,7 @@ export const styles = StyleSheet.create({
   input: {
     fontFamily: fontFamilies.regular,
     width: '100%',
-    minHeight: 46,
+    minHeight: 50,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.md,
     borderWidth: 1,
@@ -408,16 +419,16 @@ export const styles = StyleSheet.create({
     lineHeight: 20,
   },
   alertSuccess: {
-    backgroundColor: '#edf7f1',
-    borderColor: '#c6e6d2',
+    backgroundColor: '#edf6f1',
+    borderColor: '#c8e2d2',
   },
   alertError: {
-    backgroundColor: '#fdf0f0',
-    borderColor: '#f2cccc',
+    backgroundColor: '#fbefef',
+    borderColor: '#edcccc',
   },
   alertWarning: {
-    backgroundColor: '#fbf5e9',
-    borderColor: '#ead8b5',
+    backgroundColor: '#faf5e9',
+    borderColor: '#e9d9b8',
   },
   badge: {
     minHeight: 25,

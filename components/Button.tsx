@@ -16,7 +16,11 @@ type Props = {
 
 export function Button({ text, onPress, variant = 'primary', loading = false, disabled = false, fullWidth = false, style }: Props) {
   const inactive = disabled || loading;
-  const labelColor = variant === 'primary' || variant === 'danger' || variant === 'success' ? colors.primaryForeground : colors.foreground;
+  const labelColor = variant === 'primary' || variant === 'danger' || variant === 'success'
+    ? colors.primaryForeground
+    : variant === 'secondary'
+      ? colors.secondaryForeground
+      : colors.foreground;
   return (
     <Pressable
       accessibilityRole="button"
@@ -36,4 +40,4 @@ const variantStyles = StyleSheet.create({
   success: { backgroundColor: colors.success, borderColor: colors.success },
   outline: { backgroundColor: 'transparent', borderColor: colors.border },
 });
-const local = StyleSheet.create({ pressed: { opacity: 0.82, transform: [{ scale: 0.99 }] } });
+const local = StyleSheet.create({ pressed: { opacity: 0.88 } });

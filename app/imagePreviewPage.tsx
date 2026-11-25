@@ -3,6 +3,7 @@ import { submitMultiPartFormData } from '@/services/cameraService';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
+import { colors, radius, spacing } from '@/helper/style';
 
 
 const imagePreviewPage = () => {
@@ -40,7 +41,7 @@ const imagePreviewPage = () => {
 
 
     return (
-        <View>
+        <View style={styles.container}>
 
             <Image
                 source={{ uri }}
@@ -48,10 +49,15 @@ const imagePreviewPage = () => {
             <Button
                 text={"Retry"}
                 onPress={() => { router.back() }}
+                variant="outline"
+                fullWidth
+                style={styles.action}
             />
             <Button
                 text={"Submit"}
                 onPress={() => handleSubmit(uri)}
+                fullWidth
+                style={styles.action}
             />
         </View>
     )
@@ -61,9 +67,25 @@ const imagePreviewPage = () => {
 export default imagePreviewPage
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: spacing.lg,
+        backgroundColor: colors.background,
+    },
     preview: {
-        width: 300,
-        height: 400,
-        margin: 20,
+        width: '100%',
+        maxWidth: 420,
+        maxHeight: 520,
+        aspectRatio: 3 / 4,
+        marginBottom: spacing.xl,
+        borderRadius: radius.lg,
+        backgroundColor: colors.cameraBackground,
+    },
+    action: {
+        width: '100%',
+        maxWidth: 420,
+        marginTop: spacing.sm,
     },
 })

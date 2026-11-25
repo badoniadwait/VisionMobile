@@ -211,7 +211,7 @@ export default function StudentHome() {
               STUDENT PORTAL
             </AppText>
 
-            <AppText weight="bold" style={design.heading}>
+            <AppText weight="bold" style={[design.heading, { fontSize: 25 }]}>
               Hi, {student.name || 'Student'}.
             </AppText>
 
@@ -303,7 +303,7 @@ export default function StudentHome() {
             Verify your face before the exam.
           </AppText>
 
-          <AppText style={{ color: '#d7d9de', lineHeight: 22 }}>
+          <AppText style={{ color: colors.secondary, lineHeight: 22 }}>
             Use a well-lit space and keep your face distant from camera.
           </AppText>
         </View>
@@ -388,7 +388,7 @@ export default function StudentHome() {
               }}
             >
               <AppText weight="bold" style={design.title}>
-                Exam #{quiz.id}
+                Quiz #{quiz.id}
               </AppText>
 
             </View>
